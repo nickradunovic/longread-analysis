@@ -1,0 +1,11 @@
+{
+    "__default__":
+    {
+        "partition": "general",
+        "qos": "short",
+        "time": "1:00:00",
+        "ntasks": "1",
+        "cpus-per-task": "2",
+        "mem": "1G"
+    }
+}
