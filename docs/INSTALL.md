@@ -22,14 +22,18 @@ pipeline is being used for the first time.
 
 ## Installation
 
-* First, clone the whole project to your work directory.
-* Second, change the last line in both `config/main_env.yaml` and `config/py2_env.yaml` so that it specifies the path where you want your dependencies located.
-* Third, change global variable `WORK_PATH`, defined in `common.py`, to the path where all your samples are stored.
-* Fourth, peform the testrun by entering the line below. The testrun is completed succesfully when it terminates without errors.
+* First, install `snakemake`. For easy installation of `snakemake`, enter the following line in the command-line:
+
+    conda install -c bioconda snakemake
+
+* Second, clone the whole project to your work directory.
+* Third, change the last line in both `config/main_env.yaml` and `config/py2_env.yaml` so that it specifies the path where you want your dependencies located.
+* Fourth, change global variable `WORK_PATH`, defined in `common.py`, to the path where all your samples are stored.
+* Fifth, peform the testrun by entering the line below. The testrun is completed succesfully when it terminates without errors.
 
     snakemake -j 100 --latency-wait 180 --cluster-config cluster.json --use-conda --cluster "sbatch -p {cluster.partition} --qos {cluster.qos} --mem={cluster.mem} -t {cluster.time} --ntasks {cluster.ntasks} -c {cluster.cpus-per-task}"
 
-* Fifth, when no errors occured when peforming the testrun, change `SAMPLE_FILES` in the Snakefile to a sample_id of interest, or uncomment that line for automatic sample selection.
+* Sixth, when no errors occured when peforming the testrun, change `SAMPLE_FILES` in the Snakefile to a sample_id of interest, or uncomment that line for automatic sample selection.
 
 * Lastly, uncomment the lines in `rule all` in the Snakefile as desired, as you can select which pipeline to activate in this way.
 
