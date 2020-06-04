@@ -18,7 +18,7 @@ System requirements:
 * Snakemake version 5.7.0 (or higher)
 
 The above dependencies are downloaded and installed automatically when the
-pipeline is called for the first time.
+pipeline is being used for the first time.
 
 ## Installation
 
