@@ -1,7 +1,7 @@
 # Usage
 
 <p align="center">
-  <img src="docs/general_overview.png" alt="General overview"/>
+  <img src="general_overview.png" alt="General overview"/>
 </p>
 
 For reference, a general overview of the pipelines is depicted above.
