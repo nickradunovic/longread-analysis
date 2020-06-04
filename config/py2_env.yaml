@@ -1,0 +1,44 @@
+name: py2
+channels:
+  - conda-forge
+  - bioconda
+  - defaults
+dependencies:
+  - _libgcc_mutex=0.1=conda_forge
+  - _openmp_mutex=4.5=0_gnu
+  - ca-certificates=2020.4.5.1=hecc5488_0
+  - certifi=2019.11.28=py27h8c360ce_1
+  - ld_impl_linux-64=2.34=h53a641e_0
+  - libffi=3.2.1=he1b5a44_1007
+  - libgcc-ng=9.2.0=h24d8f2e_2
+  - libgomp=9.2.0=h24d8f2e_2
+  - libstdcxx-ng=9.2.0=hdf63c60_2
+  - ncurses=6.1=hf484d3e_1002
+  - openssl=1.1.1f=h516909a_0
+  - pip=20.0.2=py_2
+  - python=2.7.15=h5a48372_1011_cpython
+  - python_abi=2.7=1_cp27mu
+  - readline=8.0=hf8c457e_0
+  - setuptools=44.0.0=py27_0
+  - sqlite=3.30.1=hcee41ef_0
+  - tk=8.6.10=hed695b0_0
+  - wheel=0.34.2=py_1
+  - zlib=1.2.11=h516909a_1006
+  - pip:
+    - backports-functools-lru-cache==1.6.1
+    - cycler==0.10.0
+    - decorator==4.4.2
+    - intervaltree==3.0.2
+    - kiwisolver==1.1.0
+    - matplotlib==2.2.5
+    - networkx==2.0
+    - numpy==1.16.6
+    - pyparsing==2.4.7
+    - pysam==0.15.4
+    - python-dateutil==2.8.1
+    - pytz==2019.3
+    - reveal==0.2.2
+    - six==1.14.0
+    - sortedcontainers==2.1.0
+    - subprocess32==3.5.4
+prefix: ~/envs/py2

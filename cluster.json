@@ -2,10 +2,334 @@
     "__default__":
     {
         "partition": "general",
+        "qos": "long",
+        "time": "24:00:00",
+        "ntasks": "1",
+        "cpus-per-task": "2",
+        "mem": "5G"
+    },
+    "index_reference":
+    {
+        "partition": "general",
+        "qos": "long",
+        "time": "24:00:00",
+        "ntasks": "1",
+        "cpus-per-task": "2",
+        "mem": "5G"
+    },
+    "bam2fasta":
+    {
+        "partition": "general",
+        "qos": "long",
+        "time": "12:00:00",
+        "ntasks": "1",
+        "cpus-per-task": "2",
+        "mem": "50M"
+    },
+    "bam2fasta_hap":
+    {
+        "partition": "general",
+        "qos": "long",
+        "time": "12:00:00",
+        "ntasks": "1",
+        "cpus-per-task": "2",
+        "mem": "50M"
+    },
+    "bam2fasta_hap_reference_based_pipeline":
+    {
+        "partition": "general",
+        "qos": "long",
+        "time": "12:00:00",
+        "ntasks": "1",
+        "cpus-per-task": "2",
+        "mem": "50M"
+    },
+    "bam2fasta_hap_de_novo_asm_based_pipeline":
+    {
+        "partition": "general",
+        "qos": "long",
+        "time": "12:00:00",
+        "ntasks": "1",
+        "cpus-per-task": "2",
+        "mem": "50M"
+    },
+    "bam2fastq":
+    {
+        "partition": "general",
+        "qos": "long",
+        "time": "12:00:00",
+        "ntasks": "1",
+        "cpus-per-task": "2",
+        "mem": "50M"
+    },
+    "map_to_reference":
+    {
+        "partition": "general",
+        "qos": "long",
+        "time": "12:00:00",
+        "ntasks": "1",
+        "cpus-per-task": "20",
+        "mem": "20G"
+    },
+    "get_unmapped":
+    {
+        "partition": "general",
         "qos": "short",
         "time": "1:00:00",
         "ntasks": "1",
         "cpus-per-task": "2",
         "mem": "1G"
+    },
+    "test_asms":
+    {
+        "partition": "general",
+        "qos": "long",
+        "time": "72:00:00",
+        "ntasks": "1",
+        "cpus-per-task": "2",
+        "mem": "15G"
+    },
+    "flye_asm":
+    {
+        "partition": "general",
+        "qos": "long",
+        "time": "120:00:00",
+        "ntasks": "1",
+        "cpus-per-task": "34",
+        "mem": "500G"
+    },
+    "flye_asm_de_novo_based":
+    {
+        "partition": "general",
+        "qos": "long",
+        "time": "168:00:00",
+        "ntasks": "1",
+        "cpus-per-task": "15",
+        "mem": "500G"
+    },
+    "flye_asm_de_novo_based_haplotypes":
+    {
+        "partition": "general",
+        "qos": "long",
+        "time": "168:00:00",
+        "ntasks": "1",
+        "cpus-per-task": "25",
+        "mem": "500G"
+    },
+    "wtdbg_asm_haplotypes_reference_based_first_run":
+    {
+        "partition": "general",
+        "qos": "long",
+        "time": "100:00:00",
+        "ntasks": "1",
+        "cpus-per-task": "24",
+        "mem": "300G"
+    },
+    "wtdbg_asm_haplotypes_reference_based_second_run":
+    {
+        "partition": "general",
+        "qos": "long",
+        "time": "100:00:00",
+        "ntasks": "1",
+        "cpus-per-task": "24",
+        "mem": "300G"
+    },
+    "miniasm_asm_hap":
+    {
+        "partition": "general",
+        "qos": "long",
+        "time": "48:00:00",
+        "ntasks": "1",
+        "cpus-per-task": "24",
+        "mem": "160G"
+    },
+    "miniasm_asm_stage_1":
+    {
+        "partition": "general",
+        "qos": "long",
+        "time": "100:00:00",
+        "ntasks": "1",
+        "cpus-per-task": "24",
+        "mem": "160G"
+    },
+    "miniasm_asm_stage_2":
+    {
+        "partition": "general",
+        "qos": "long",
+        "time": "12:00:00",
+        "ntasks": "1",
+        "cpus-per-task": "24",
+        "mem": "300G"
+    },
+    "miniasm_asm_stage_3":
+    {
+        "partition": "general",
+        "qos": "long",
+        "time": "100:00:00",
+        "ntasks": "1",
+        "cpus-per-task": "24",
+        "mem": "160G"
+    },
+    "map_to_hap":
+    {
+        "partition": "general",
+        "qos": "long",
+        "time": "12:00:00",
+        "ntasks": "1",
+        "cpus-per-task": "50",
+        "mem": "10G"
+    },
+    "map_to_asm":
+    {
+        "partition": "general",
+        "qos": "long",
+        "time": "48:00:00",
+        "ntasks": "1",
+        "cpus-per-task": "20",
+        "mem": "100G"
+    },
+    "de_novo_asm_haplotypes_mapped_to_ref":
+    {
+        "partition": "general",
+        "qos": "long",
+        "time": "02:00:00",
+        "ntasks": "1",
+        "cpus-per-task": "20",
+        "mem": "100G"
+    },
+    "pbsv_caller":
+    {
+        "partition": "general",
+        "qos": "long",
+        "time": "48:00:00",
+        "ntasks": "1",
+        "cpus-per-task": "2",
+        "mem": "20G"
+    },
+    "pbsv_caller_de_novo_based_haplotypes":
+    {
+        "partition": "general",
+        "qos": "long",
+        "time": "120:00:00",
+        "ntasks": "1",
+        "cpus-per-task": "2",
+        "mem": "40G"
+    },
+    "reveal_sv_caller_de_novo_based_haplotypes":
+    {
+        "partition": "general",
+        "qos": "long",
+        "time": "120:00:00",
+        "ntasks": "1",
+        "cpus-per-task": "40",
+        "mem": "200G"
+    },
+    "reveal":
+    {
+        "partition": "general",
+        "qos": "short",
+        "time": "00:01:00",
+        "ntasks": "1",
+        "cpus-per-task": "2",
+        "mem": "20M"
+    },
+    "whatshap_phase":
+    {
+        "partition": "general",
+        "qos": "long",
+        "time": "48:00:00",
+        "ntasks": "1",
+        "cpus-per-task": "2",
+        "mem": "40G"
+    },
+    "phasing_reference_based_pipeline":
+    {
+        "partition": "general",
+        "qos": "long",
+        "time": "48:00:00",
+        "ntasks": "1",
+        "cpus-per-task": "2",
+        "mem": "20G"
+    },
+    "svcalling_and_phase_asm":
+    {
+        "partition": "general",
+        "qos": "long",
+        "time": "48:00:00",
+        "ntasks": "1",
+        "cpus-per-task": "2",
+        "mem": "20G"
+    },
+    "svcalling_and_phase_asm_wtdbg2":
+    {
+        "partition": "general",
+        "qos": "long",
+        "time": "72:00:00",
+        "ntasks": "1",
+        "cpus-per-task": "2",
+        "mem": "20G"
+    },
+    "svcalling_and_phase_version_no_chr_splitted_wtdbg2":
+    {
+        "partition": "general",
+        "qos": "long",
+        "time": "120:00:00",
+        "ntasks": "1",
+        "cpus-per-task": "2",
+        "mem": "60G"
+    },
+    "svcalling_and_phase_version_no_chr_splitted":
+    {
+        "partition": "general",
+        "qos": "long",
+        "time": "120:00:00",
+        "ntasks": "1",
+        "cpus-per-task": "2",
+        "mem": "2G"
+    },
+    "svcalling_and_phase_asm_wtdbg2_batch_first_100":
+    {
+        "partition": "general",
+        "qos": "long",
+        "time": "24:00:00",
+        "ntasks": "1",
+        "cpus-per-task": "2",
+        "mem": "2G"
+    },
+    "svcalling_and_phase_asm_wtdbg2_batch_last_100":
+    {
+        "partition": "general",
+        "qos": "long",
+        "time": "24:00:00",
+        "ntasks": "1",
+        "cpus-per-task": "2",
+        "mem": "2G"
+    },
+    "svcalling_and_phase_asm_wtdbg2_multi_threaded":
+    {
+        "partition": "general",
+        "qos": "long",
+        "time": "120:00:00",
+        "ntasks": "1",
+        "cpus-per-task": "50",
+        "mem": "50G"
+    },
+    "phasing_de_novo_based_pipeline":
+    {
+        "partition": "general",
+        "qos": "long",
+        "time": "60:00:00",
+        "ntasks": "1",
+        "cpus-per-task": "70",
+        "mem": "50G"
+    },
+    "phased_de_novo":
+    {
+        "partition": "general",
+        "qos": "long",
+        "time": "24:00:00",
+        "ntasks": "1",
+        "cpus-per-task": "2",
+        "mem": "5G"
     }
 }
