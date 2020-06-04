@@ -31,7 +31,7 @@ pipeline is called for the first time.
 
 The testrun is completed succesfully when it terminates without errors.
 
-Fifth, when no errors occured when peforming the testrun, change `SAMPLE_FILES` in the Snakefile to a sample_id of interest, or uncomment that line for automatic sample selection.
+* Fifth, when no errors occured when peforming the testrun, change `SAMPLE_FILES` in the Snakefile to a sample_id of interest, or uncomment that line for automatic sample selection.
 
 * Lastly, uncomment the lines in `rule all` in the Snakefile as desired, as you can select which pipeline to activate in this way.
 
