@@ -10,7 +10,7 @@ The pipelines can be called by entering the following line of code in your termi
 
     snakemake -j 100 --latency-wait 180 --cluster-config cluster.json --use-conda --cluster "sbatch -p {cluster.partition} --qos {cluster.qos} --mem={cluster.mem} -t {cluster.time} --ntasks {cluster.ntasks} -c {cluster.cpus-per-task}"
 
-However, before you invoke the pipelines, make sure that you've set the concerned pipelines on 'active', which can be done by uncommenting certain lines in the rule 'all' in the Snakefile.
+However, before you invoke the pipelines, make sure that you've set the concerned pipelines on 'active', which can be done by uncommenting certain lines in the `rule all` in the Snakefile.
 
 To change the resources for each step, adjust the cluster.json file as desired.
 
