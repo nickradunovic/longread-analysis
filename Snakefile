@@ -26,16 +26,16 @@ localrules: all, clean, help
 rule all:
     input:
         # THIS IS THE TESTRUN
-        os.path.join(str(WORK_PATH), str(WORK_DIR_NAME), 'alignments/{sample_id}.aligned.sorted.bam')
+        expand(os.path.join(str(WORK_PATH), str(WORK_DIR_NAME), 'alignments/{samplefile}.aligned.sorted.bam'), samplefile=SAMPLE_FILES)
 
         # Uncomment for running the REFERENCE BASED approach of the HAPLOTYPE-RECONSTRUCTION pipeline
-        #expand(os.path.join(str(WORK_PATH), str(WORK_DIR_NAME), 'assemblies/reference_based_pipeline/{sample_id}/wtdbg2_asm_haplotypes_second_run/haplotype_2/{sample_id}.hap2.3nd_polishing_iteration.cns.fa'), samplefile=SAMPLE_FILES)
+        #expand(os.path.join(str(WORK_PATH), str(WORK_DIR_NAME), 'assemblies/reference_based_pipeline/{samplefile}/wtdbg2_asm_haplotypes_second_run/haplotype_2/{samplefile}.hap2.3nd_polishing_iteration.cns.fa'), samplefile=SAMPLE_FILES)
 
         # Uncomment for running the DE NOVO BASED approach of the HAPLOTYPE-RECONSTRUCTION pipeline
-        #expand(os.path.join(str(WORK_PATH), str(WORK_DIR_NAME), 'assemblies/de_novo_asm_based_pipeline/{sample_id}/haplotype_2/assembly.fasta'), samplefile=SAMPLE_FILES)
+        #expand(os.path.join(str(WORK_PATH), str(WORK_DIR_NAME), 'assemblies/de_novo_asm_based_pipeline/{samplefile}/haplotype_2/assembly.fasta'), samplefile=SAMPLE_FILES)
 
         # Uncomment for running the STRUCTURAL VARIANT CALLING pipeline (not fully, properly working yet)
-        #expand(os.path.join(str(WORK_PATH), str(WORK_DIR_NAME), 'vcf/sv_calling_on_haplotypes/de_novo_asm_based_haplotypes/{sample_id}/haplotype_2/asm_haplotype_2.prg.refined.vcf'), samplefile=SAMPLE_FILES)
+        #expand(os.path.join(str(WORK_PATH), str(WORK_DIR_NAME), 'vcf/sv_calling_on_haplotypes/de_novo_asm_based_haplotypes/{samplefile}/haplotype_2/asm_haplotype_2.prg.refined.vcf'), samplefile=SAMPLE_FILES)
 
 
 rule help:
@@ -119,20 +119,24 @@ rule index_reference:
         """
 
 
-rule first_time_setup:
+rule test_run:
     input:
         'test/{sample_id}.subreads.bam'
     output:
-        os.path.join(str(WORK_PATH), str(WORK_DIR_NAME), 'references/hg38.fa'),
         os.path.join(str(READS_DIR), '{sample_id}.subreads.bam')
-    conda:
-        MAIN_ENV
+    shell:
+        """
+        mv {input} {output}
+        """
+
+rule retrieve_reference_genome:
+    output:
+        os.path.join(str(WORK_PATH), str(WORK_DIR_NAME), 'references/hg38.fa')
     shell:
         """
         wget http://hgdownload.soe.ucsc.edu/goldenPath/hg38/bigZips/hg38.fa.gz
         gunzip hg38.fa.gz
-        mv hg38.fa {output[0]}
-        mv {input} {output[1]}
+        mv hg38.fa {output}
         """
 
 
