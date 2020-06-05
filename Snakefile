@@ -1,9 +1,8 @@
-from  common import *
+from common import *
 from multiprocessing.pool import ThreadPool as Pool
 import concurrent.futures
 import os
 
-MAIN_ENV = "config/main_env.yaml" # Conda environment that contains all necessary dependencies
 PY2_ENV = "config/py2_env.yaml" # Conda python 2 environment (don't touch)
 SAMPLE_FILES = ["sample_for_testrun_CLR"] # COMMENT THIS LINE OUT WHEN NOT TESTING. PUT IN HERE YOUR SAMPLE_ID FOR TESTING.
 
@@ -84,8 +83,6 @@ rule bam2fasta:
         os.path.join(str(READS_DIR), '{sample_id}.subreads.bam')
     output:
         os.path.join(str(WORK_PATH), str(WORK_DIR_NAME), 'fasta_files/{sample_id}.subreads.fasta')
-    conda:
-        MAIN_ENV
     shell:
         """
         samtools fasta {input} > {output}
@@ -96,8 +93,6 @@ rule bam2fastq:
         os.path.join(str(READS_DIR), '{sample_id}.subreads.bam')
     output:
         os.path.join(str(WORK_PATH), str(WORK_DIR_NAME), 'fastq_files/{sample_id}.subreads.fq')
-    conda:
-        MAIN_ENV
     shell:
         """
         samtools fastq {input} > {output}
@@ -110,8 +105,6 @@ rule index_reference:
     output:
         os.path.join(str(WORK_PATH), str(WORK_DIR_NAME), 'references/{ref_genome}.mmi'),
         os.path.join(str(WORK_PATH), str(WORK_DIR_NAME), 'references/{ref_genome}.fai')
-    conda:
-        MAIN_ENV
     shell:
         """
         pbmm2 index --preset 'SUBREAD' -k 19 -w 10 {input} {output[0]}
@@ -126,7 +119,7 @@ rule test_run:
         os.path.join(str(READS_DIR), '{sample_id}.subreads.bam')
     shell:
         """
-        mv {input} {output}
+        cp {input} {output}
         """
 
 rule retrieve_reference_genome:
@@ -158,8 +151,6 @@ rule bam2fasta_hap_de_novo_asm_based_pipeline:
         os.path.join(str(WORK_PATH), str(WORK_DIR_NAME), 'fasta_files/de_novo_asm_based_pipeline/{sample_id}/{sample_id}.subreads_unassigned.fasta'),
         os.path.join(str(WORK_PATH), str(WORK_DIR_NAME), 'fasta_files/de_novo_asm_based_pipeline/{sample_id}/{sample_id}.subreads_haplotype_1_incl_unassigned.fasta'),
         os.path.join(str(WORK_PATH), str(WORK_DIR_NAME), 'fasta_files/de_novo_asm_based_pipeline/{sample_id}/{sample_id}.subreads_haplotype_2_incl_unassigned.fasta')
-    conda:
-        MAIN_ENV
     shell:
         """
         samtools fasta {input[0]} > {output[0]}
@@ -178,8 +169,6 @@ rule asm_to_indexed_asm:
         os.path.join(str(WORK_PATH), str(WORK_DIR_NAME), 'assemblies/de_novo_asm_based_pipeline/{sample_id}/diploid_genome/assembly.fasta')
     output:
         os.path.join(str(WORK_PATH), str(WORK_DIR_NAME), 'assemblies/de_novo_asm_based_pipeline/{sample_id}/diploid_genome/assembly.fasta.fai')
-    conda:
-        MAIN_ENV
     shell:
         """
         samtools faidx {input} -o {output}
@@ -196,8 +185,6 @@ rule map_to_asm: # Replace '--preset SUBREAD' with '--preset CCS' when analysing
     output:
         os.path.join(str(WORK_PATH), str(WORK_DIR_NAME), 'alignments/subreads_mapped_back_to_asm/{sample_id}/{sample_id}.aligned.subreads_to_asm.bam'),
         os.path.join(str(WORK_PATH), str(WORK_DIR_NAME), 'alignments/subreads_mapped_back_to_asm/{sample_id}/{sample_id}.aligned.subreads_to_asm.sorted.bam')
-    conda:
-        MAIN_ENV
     run:
         cmd = """
         pbmm2 align --preset SUBREADS --log-level DEBUG --unmapped {input[1]} {input[0]} {output[0]}
@@ -223,8 +210,6 @@ rule de_novo_asm_haplotypes_mapped_to_ref: # POSSIBLE EXTENTION: add option '-L 
         os.path.join(str(WORK_PATH), str(WORK_DIR_NAME), 'alignments/de_novo_asm_haplotypes_mapped_back_to_ref/{sample_id}/haplotype_2/{sample_id}.aligned.subreads_to_asm.sam'),
         os.path.join(str(WORK_PATH), str(WORK_DIR_NAME), 'alignments/de_novo_asm_haplotypes_mapped_back_to_ref/{sample_id}/haplotype_2/{sample_id}.aligned.subreads_to_asm.bam'),
         os.path.join(str(WORK_PATH), str(WORK_DIR_NAME), 'alignments/de_novo_asm_haplotypes_mapped_back_to_ref/{sample_id}/haplotype_2/{sample_id}.aligned.subreads_to_asm.sorted.bam')
-    conda:
-        MAIN_ENV
     run:
         threads_for_mapping = 19 # minimap2 uses INT + 1 threads
         cmd = """
@@ -272,8 +257,6 @@ rule phasing_de_novo_based_pipeline: # (bash-error: doesn't find headers.txt fil
         os.path.join(str(WORK_PATH), str(WORK_DIR_NAME), 'phased/de_novo_asm_based_pipeline/{sample_id}/{sample_id}.unassigned.bam')
     params:
         path_to_headers=os.path.join(str(WORK_PATH), str(WORK_DIR_NAME), 'assemblies/de_novo_asm_based_pipeline/{sample_id}/headers.txt')
-    conda:
-        MAIN_ENV
     run:
         path_to_phased_bam = os.path.join(str(WORK_PATH), str(WORK_DIR_NAME), 'phased/de_novo_asm_based_pipeline/' + str(wildcards.sample_id))
         path_to_vcf_file = os.path.join(str(WORK_PATH), str(WORK_DIR_NAME), 'vcf/de_novo_asm_based_pipeline/' + str(wildcards.sample_id))
@@ -340,8 +323,6 @@ rule flye_asm_de_novo_based: # replace '--pacbio-raw' for '--pacbio-hifi' when a
         os.path.join(str(WORK_PATH), str(WORK_DIR_NAME), 'assemblies/de_novo_asm_based_pipeline/{sample_id}/diploid_genome/assembly.fasta')
     params:
         path_to_out_dir1=os.path.join(str(WORK_PATH), str(WORK_DIR_NAME), 'assemblies/de_novo_asm_based_pipeline/{sample_id}/diploid_genome')
-    conda:
-        MAIN_ENV
     run:
         genome_size = 3000000000 # the human genome has 3 billion base pairs
         polishing_iterations = 3 # peforming three iterations is conventional
@@ -366,8 +347,6 @@ rule flye_asm_de_novo_based_haplotypes: # replace '--pacbio-raw' for '--pacbio-h
     params:
         path_to_out_dir_hap1=os.path.join(str(WORK_PATH), str(WORK_DIR_NAME), 'assemblies/de_novo_asm_based_pipeline/{sample_id}/haplotype_1'),
         path_to_out_dir_hap2=os.path.join(str(WORK_PATH), str(WORK_DIR_NAME), 'assemblies/de_novo_asm_based_pipeline/{sample_id}/haplotype_2')
-    conda:
-        MAIN_ENV
     run:
         genome_size = 3000000000 # the human genome has 3 billion base pairs
         polishing_iterations = 3 # peforming three iterations is conventional
@@ -391,8 +370,6 @@ rule map_to_reference:
         os.path.join(str(WORK_PATH), str(WORK_DIR_NAME), 'alignments/{sample_id}.aligned.sorted.bam')
     #    os.path.join(str(WORK_PATH), str(WORK_DIR_NAME), 'alignments/{sample_id}.aligned.sorted.bam.bai'),
     #    os.path.join(str(WORK_PATH), str(WORK_DIR_NAME), 'alignments/{sample_id}.aligned.sorted.bam.stats')
-    conda:
-        MAIN_ENV
     shell: # pbmm2 uses the maximum number of threads as default
         """
         pbmm2 align --log-level DEBUG --unmapped {input[1]} {input[0]} {output[0]}
@@ -407,8 +384,6 @@ rule get_unmapped:
         os.path.join(str(WORK_PATH), str(WORK_DIR_NAME), 'alignments/{sample_id}.aligned.sorted.bam')
     output:
         os.path.join(str(WORK_PATH), str(WORK_DIR_NAME), 'alignments/{sample_id}.unmapped.bam')
-    conda:
-        MAIN_ENV
     shell:
         """
         samtools view -b -f 4 {input} > {output}
@@ -441,8 +416,6 @@ rule phasing_reference_based_pipeline:
         os.path.join(str(WORK_PATH), str(WORK_DIR_NAME), 'phased/reference_based_pipeline/{sample_id}/{sample_id}.hap1.bam'),
         os.path.join(str(WORK_PATH), str(WORK_DIR_NAME), 'phased/reference_based_pipeline/{sample_id}/{sample_id}.hap2.bam'),
         os.path.join(str(WORK_PATH), str(WORK_DIR_NAME), 'phased/reference_based_pipeline/{sample_id}/{sample_id}.unassigned.bam')
-    conda:
-        MAIN_ENV
     run:
         path_to_phased_bam = os.path.join(str(WORK_PATH), str(WORK_DIR_NAME), 'phased/reference_based_pipeline/' + str(wildcards.sample_id))
         path_to_vcf_file = os.path.join(str(WORK_PATH), str(WORK_DIR_NAME), 'vcf/reference_based_pipeline/' + str(wildcards.sample_id))
@@ -475,8 +448,6 @@ rule bam2fasta_hap_reference_based_pipeline:
         os.path.join(str(WORK_PATH), str(WORK_DIR_NAME), 'fasta_files/reference_based_pipeline/{sample_id}/{sample_id}.subreads_haplotype_2_incl_unassigned.fasta'),
         os.path.join(str(WORK_PATH), str(WORK_DIR_NAME), 'fasta_files/reference_based_pipeline/{sample_id}/{sample_id}.subreads_haplotype_1_incl_unassigned.fasta.gz'), # optional
         os.path.join(str(WORK_PATH), str(WORK_DIR_NAME), 'fasta_files/reference_based_pipeline/{sample_id}/{sample_id}.subreads_haplotype_2_incl_unassigned.fasta.gz') # optional
-    conda:
-        MAIN_ENV
     shell:
         """
         samtools fasta {input[0]} > {output[0]}
@@ -500,8 +471,6 @@ rule bam2fastq_hap_reference_based_pipeline:
         os.path.join(str(WORK_PATH), str(WORK_DIR_NAME), 'fastq_files/reference_based_pipeline/{sample_id}.unassigned.fq'),
         os.path.join(str(WORK_PATH), str(WORK_DIR_NAME), 'fastq_files/reference_based_pipeline/{sample_id}.hap1_incl_unassigned.fq'),
         os.path.join(str(WORK_PATH), str(WORK_DIR_NAME), 'fastq_files/reference_based_pipeline/{sample_id}.hap2_incl_unassigned.fq')
-    conda:
-        MAIN_ENV
     shell:
         """
         samtools fastq {input[0]} > {output[0]}
@@ -519,8 +488,6 @@ rule bam2fasta_hap:
     output:
         os.path.join(str(WORK_PATH), str(WORK_DIR_NAME), 'fasta_files/reference_based_pipeline/{sample_id}/{sample_id}.hap1.fasta'),
         os.path.join(str(WORK_PATH), str(WORK_DIR_NAME), 'fasta_files/reference_based_pipeline/{sample_id}/{sample_id}.hap2.fasta')
-    conda:
-        MAIN_ENV
     shell:
         """
         samtools fasta {input[0]} > {output[0]}
@@ -553,8 +520,6 @@ rule map_to_hap: # In deze rule zat oorspronkelijk een bug. TO-DO: checken of de
     params:
         path_to_headers=os.path.join(str(WORK_PATH), str(WORK_DIR_NAME), 'assemblies/reference_based_pipeline/{sample_id}/wtdbg2_asm_haplotypes_first_run/headers.txt'),
         split=os.path.join(str(WORK_PATH), str(WORK_DIR_NAME), 'alignments/subreads_mapped_back_to_haplotypes/{sample_id}/{sample_id}.aligned.subreads_to_hap')
-    conda:
-        MAIN_ENV
     run:
         alignment = os.path.join(str(WORK_PATH), str(WORK_DIR_NAME), 'alignments/subreads_mapped_back_to_haplotypes')
         threads_for_mapping = 49 # minimap2 uses INT + 1 threads
@@ -678,8 +643,6 @@ rule wtdbg_asm_haplotypes_reference_based_second_run:
         prefix_haplotype_2=os.path.join(str(WORK_PATH), str(WORK_DIR_NAME), 'assemblies/reference_based_pipeline/{sample_id}/wtdbg2_asm_haplotypes_second_run/haplotype_2/{sample_id}.hap2'),
         wtdbg2=os.path.join(str(WORK_PATH), str(WORK_DIR_NAME), 'wtdbg2/./wtdbg2'),
         wtpoa_cns=os.path.join(str(WORK_PATH), str(WORK_DIR_NAME), 'wtdbg2/./wtpoa-cns')
-    conda:
-        MAIN_ENV
     run:
         number_of_parallel_threads = 24
         number_of_parallel_threads_for_sorting = 8
