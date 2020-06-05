@@ -18,7 +18,7 @@ SAMPLE_FILES = []
 def gather_files(path):
     cmd = "mkdir -p " + os.path.join(str(WORK_PATH), WORK_DIR_NAME)
     os.system(cmd)
-    cmd = "mkdir -p " + os.path.exists(READS_DIR)
+    cmd = "mkdir -p " + READS_DIR
     os.system(cmd)
     for d in os.listdir(str(WORK_PATH)):
         d = os.path.join(str(WORK_PATH), d)
