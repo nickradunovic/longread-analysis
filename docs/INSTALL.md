@@ -18,9 +18,11 @@ System requirements:
 * Gzip version 1.5 (or higher)
 * Snakemake version 5.7.0 (or higher)
 
-The above dependencies are listed above. The `config/main_env.yaml` file lists all of the dependencies that are required.
+The dependencies are listed above and can be installed easily by using the `config/main_env.yaml` file.
 
-In order to run the pipelines, you've to create a conda environment with all the tools installed. An easy way on how to do this, by using the following commands:
+## Install all the dependencies
+In the following, I shall give you a walkthrough on how to set up a conda environment with all dependencies installed.
+First, you've to create a new conda environment from the `config/main_env.yaml` file by using the following command:
 
     conda env create -f config/main_env.yaml
 
@@ -28,13 +30,18 @@ Subsequently, you can activate the environment with
 
     conda activate long-read_pipeline
 
-Every time you want to run the pipelines, you have to activate the environment.
-As a last check, see whether or not `long-read pipeline` is present in the list of conda environments, by using the command:
+To see if your environment is set up correctly, check whether or not the newly created environment `long-read pipeline` is present in the list of conda environments. You can view this list by using the command:
 
     conda env list
 
+If the environment `long-read pipeline` is present, then you're set.
 
-## Installation
+**Note**, that this conda environment has to be activated each time you want to run the pipelines.
+
+
+## Getting started
+
+This guide will help to get you started so that the pipelines can be used without any problems.
 
 * First, install `snakemake`. For easy installation of `snakemake`, enter the following line in the command-line:
 
@@ -42,18 +49,18 @@ As a last check, see whether or not `long-read pipeline` is present in the list 
 
 * Second, clone the whole project to your work directory.
 * Third, change the last line in both `config/main_env.yaml` and `config/py2_env.yaml` so that it specifies the path where you want your dependencies located.
-* Fourth, install create a new conda environment that has all dependencies installed. (See the walkthrough above)
-* Fifth, peform the testrun by entering the line below. The testrun is completed succesfully when it terminates without errors.
+* Fourth, install all the dependencies on your machine. An easy way to do this is by using the `config/py2_env.yaml` file to set up a new conda environment. Note, that this environment has to be activated before you run the pipeline.
+* Fifth, perform the test run by entering the line below. The test run is completed successfully when it terminates without errors.
 
     snakemake -j 100 --latency-wait 180 --cluster-config cluster.json --use-conda --cluster "sbatch -p {cluster.partition} --qos {cluster.qos} --mem={cluster.mem} -t {cluster.time} --ntasks {cluster.ntasks} -c {cluster.cpus-per-task}"
 
-* Sixth, when no errors occured when peforming the testrun, change global variable `WORK_PATH`, defined in `common.py` to the path where all your samples are stored.
+* Sixth, if no errors occured during the testrun, change the global variable `WORK_PATH`, defined in `common.py`, to the path where all your samples are stored.
 
 * Seventh, change `SAMPLE_FILES` in the Snakefile to a sample_id of interest, or uncomment that line for automatic sample selection.
 
 * Lastly, uncomment the lines in `rule all` in the Snakefile as desired, as you can select which pipeline to activate in this way.
 
-When everything is set and the above steps are succesfully completed, then the pipelines should be working.
+When everything is set and the above steps are successfully completed, then the pipelines should be working.
 
 For further help, see the Snakefile which is documented thoroughly.
 Alternatively, you can enter
