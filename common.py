@@ -16,6 +16,10 @@ READS_DIR = os.path.join(str(WORK_PATH), str(WORK_DIR_NAME), 'reads')
 SAMPLE_FILES = []
 
 def gather_files(path):
+    cmd = "mkdir -p " + os.path.join(str(WORK_PATH), WORK_DIR_NAME)
+    os.system(cmd)
+    cmd = "mkdir -p " + os.path.exists(READS_DIR)
+    os.system(cmd)
     for d in os.listdir(str(WORK_PATH)):
         d = os.path.join(str(WORK_PATH), d)
         for f in os.listdir(d):
@@ -23,20 +27,6 @@ def gather_files(path):
                 os.replace(os.path.join(d, f), path + "/" + f)
     cmd = """find ${work_path} -mindepth 1 ! -regex "^${WORK_PATH}/${WORK_DIR_NAME}\(/.*\)?" -delete"""
     #os.system(cmd) # uncomment for automatic removal of files other than the actual subreads
-
-if (os.path.exists(os.path.join(str(WORK_PATH), WORK_DIR_NAME))):
-    if not (os.path.exists(READS_DIR)):
-        path_name_reads = os.path.join(str(WORK_PATH), WORK_DIR_NAME)
-        cmd = "mkdir " + path_name_reads
-        os.system(cmd)
-else:
-    path_name = os.path.join(str(WORK_PATH), WORK_DIR_NAME)
-    cmd = "mkdir " + path_name
-    os.system(cmd)
-    path_name_reads = os.path.join(str(WORK_PATH), WORK_DIR_NAME)
-    cmd = "mkdir " + path_name_reads
-    os.system(cmd)
-
 
 #read in all long-read files in specific dir as samplefiles
 gather_files(READS_DIR)
