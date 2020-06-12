@@ -571,8 +571,6 @@ rule wtdbg_asm_haplotypes_reference_based_first_run:
         prefix_haplotype_2=os.path.join(str(WORK_PATH), str(WORK_DIR_NAME), 'assemblies/reference_based_pipeline/{sample_id}/wtdbg2_asm_haplotypes_first_run/haplotype_2/{sample_id}.hap2'),
         wtdbg2=os.path.join(str(WORK_PATH), str(WORK_DIR_NAME), 'wtdbg2/wtdbg2'),
         wtpoa_cns=os.path.join(str(WORK_PATH), str(WORK_DIR_NAME), 'wtdbg2/wtpoa-cns')
-    conda:
-        PY2_ENV
     run:
         number_of_parallel_threads = 24
         number_of_parallel_threads_for_sorting = 8
